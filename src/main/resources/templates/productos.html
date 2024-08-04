@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Productos</title>
+</head>
+<body>
+    <h1>Lista de Productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Precio Compra</th>
+                <th>Precio Venta</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="producto : ${productos}">
+                <td th:text="${producto.id}">1</td>
+                <td th:text="${producto.nombre}">Carne</td>
+                <td th:text="${producto.categoria}">Res</td>
+                <td th:text="${producto.precioCompra}">100</td>
+                <td th:text="${producto.precioVenta}">150</td>
+                <td th:text="${producto.stock}">50</td>
+                <td>
+                    <form th:action="@{/productos/{id}/actualizarStock(id=${producto.id})}" method="post">
+                        <input type="number" name="newStock" placeholder="Nuevo Stock" />
+                        <button type="submit">Actualizar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/productos/nuevo">Nuevo Producto</a>
+</body>
+</html>

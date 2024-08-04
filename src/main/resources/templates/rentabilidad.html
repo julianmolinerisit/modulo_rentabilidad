@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rentabilidad de Productos</title>
+    <script>
+        function calcularGanancia(idProducto) {
+            console.log(`Calculando ganancia para el producto ID: ${idProducto}`);
+
+            const rentabilidadInput = document.getElementById(`rentabilidad-${idProducto}`);
+            const precioCompraText = document.getElementById(`precioCompra-${idProducto}`);
+            const cantidadLoteInput = document.getElementById(`cantidadLote-${idProducto}`);
+            const precioVentaText = document.getElementById(`precioVenta-${idProducto}`);
+            const gananciaEsperadaText = document.getElementById(`gananciaEsperada-${idProducto}`);
+
+            // Verificar que todos los elementos existan
+            if (rentabilidadInput && precioCompraText && cantidadLoteInput && precioVentaText && gananciaEsperadaText) {
+                console.log(`Todos los elementos encontrados para el producto ID: ${idProducto}`);
+
+                // Obtener los valores de los inputs y elementos de texto
+                const porcentajeRentabilidad = parseFloat(rentabilidadInput.value) || 0;
+                const precioCompra = parseFloat(precioCompraText.textContent) || 0;
+                const cantidadLote = parseFloat(cantidadLoteInput.value) || 0;
+
+                // Imprimir los valores obtenidos en la consola
+                console.log(`Producto ID: ${idProducto}`);
+                console.log(`Porcentaje de Rentabilidad: ${porcentajeRentabilidad}`);
+                console.log(`Precio de Compra: ${precioCompra}`);
+                console.log(`Cantidad del Lote: ${cantidadLote}`);
+
+                // Calcular el precio de venta y la ganancia esperada
+                const precioVenta = precioCompra * (1 + porcentajeRentabilidad / 100);
+                const gananciaEsperada = (precioVenta - precioCompra) * cantidadLote;
+
+                // Imprimir los resultados calculados en la consola
+                console.log(`Precio de Venta Calculado: ${precioVenta.toFixed(2)}`);
+                console.log(`Ganancia Esperada Calculada: ${gananciaEsperada.toFixed(2)}`);
+
+                // Actualizar los elementos de texto con los resultados calculados
+                precioVentaText.textContent = precioVenta.toFixed(2);
+                gananciaEsperadaText.textContent = gananciaEsperada.toFixed(2);
+            } else {
+                console.log(`Error: No se encontraron todos los elementos requeridos para el producto ID: ${idProducto}`);
+                console.log({
+                    rentabilidadInput,
+                    precioCompraText,
+                    cantidadLoteInput,
+                    precioVentaText,
+                    gananciaEsperadaText
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Rentabilidad de Productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio Compra</th>
+                <th>Precio Venta</th>
+                <th>Rentabilidad (%)</th>
+                <th>Cantidad Lote</th>
+                <th>Grasa Desperdicio (kg)</th>
+                <th>Otros Desperdicios (kg)</th>
+                <th>Ganancia Esperada</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="producto : ${productos}">
+                <td th:text="${producto.nombre}">Nombre</td>
+                <td th:text="${producto.categoria}">Categoría</td>
+                <td th:id="'precioCompra-' + ${producto.id}" th:text="${producto.precioCompra}">0.00</td>
+                <td th:id="'precioVenta-' + ${producto.id}">0.00</td>
+                <td>
+                    <input type="number" th:id="'rentabilidad-' + ${producto.id}" th:value="${producto.calcularRentabilidad()}" data-id="${producto.id}" />
+                </td>
+                <td>
+                    <input type="number" th:id="'cantidadLote-' + ${producto.id}" value="1" data-id="${producto.id}" />
+                </td>
+                <td>
+                    <input type="number" th:id="'grasaDesperdicio-' + ${producto.id}" value="0" data-id="${producto.id}" />
+                </td>
+                <td>
+                    <input type="number" th:id="'otrosDesperdicios-' + ${producto.id}" value="0" data-id="${producto.id}" />
+                </td>
+                <td th:id="'gananciaEsperada-' + ${producto.id}">0.00</td>
+                <td>
+                    <button type="button" onclick="calcularGanancia('${producto.id}')">Calcular</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
