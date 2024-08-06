@@ -17,11 +17,19 @@ public class RentabilidadServiceImpl implements RentabilidadService {
 
     @Override
     public List<Producto> obtenerProductosConRentabilidad() {
-        return productoRepository.findAll(); // Ajustar para calcular la rentabilidad
+        // Puede ajustar esta parte si es necesario calcular la rentabilidad en base a los productos existentes
+        return productoRepository.findAll();
     }
     
     @Override
     public Producto obtenerProductoPorId(Long id) {
         return productoRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void actualizarProducto(Producto producto) {
+        if (producto != null) {
+            productoRepository.save(producto);
+        }
     }
 }

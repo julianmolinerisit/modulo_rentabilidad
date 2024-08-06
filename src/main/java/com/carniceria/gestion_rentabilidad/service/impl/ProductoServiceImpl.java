@@ -43,6 +43,46 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
+    public void updatePrecioVenta(Long id, double nuevoPrecioVenta) {
+        Producto producto = getProductoById(id);
+        if (producto != null) {
+            producto.setPrecioVenta(nuevoPrecioVenta);
+            producto.actualizarInversionTotal();
+            saveProducto(producto);
+        }
+    }
+
+    @Override
+    public void updateRentabilidad(Long id, double nuevaRentabilidad) {
+        Producto producto = getProductoById(id);
+        if (producto != null) {
+            producto.setPorcentajeRentabilidad(nuevaRentabilidad);
+            producto.actualizarInversionTotal();
+            saveProducto(producto);
+        }
+    }
+
+    @Override
+    public void updateGrasaDesperdicio(Long id, double nuevaGrasaDesperdicio) {
+        Producto producto = getProductoById(id);
+        if (producto != null) {
+            producto.setGrasaDesperdicio(nuevaGrasaDesperdicio);
+            producto.setFechaRegistro(LocalDate.now());
+            saveProducto(producto);
+        }
+    }
+
+    @Override
+    public void updateOtrosDesperdicios(Long id, double nuevosOtrosDesperdicios) {
+        Producto producto = getProductoById(id);
+        if (producto != null) {
+            producto.setOtrosDesperdicios(nuevosOtrosDesperdicios);
+            producto.setFechaRegistro(LocalDate.now());
+            saveProducto(producto);
+        }
+    }
+
+    @Override
     public void updateDesperdicio(Long id, Double grasaDesperdicio, Double otrosDesperdicios) {
         Producto producto = getProductoById(id);
         if (producto != null) {
@@ -53,10 +93,8 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 
-	@Override
-	public void eliminarProducto(Long id) {
+    @Override
+    public void eliminarProducto(Long id) {
         productoRepository.deleteById(id);
     }
-    
-    
 }

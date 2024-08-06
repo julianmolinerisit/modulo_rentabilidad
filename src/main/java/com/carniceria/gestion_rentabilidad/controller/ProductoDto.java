@@ -2,9 +2,10 @@ package com.carniceria.gestion_rentabilidad.controller;
 
 public class ProductoDto {
     private double precioVenta;
-    private double gananciaEsperada;
+    private double porcentajeRentabilidad;
     private double grasaDesperdicio;
     private double otrosDesperdicios;
+    private Double inversionTotal;
 
     // Getters y setters
     public double getPrecioVenta() {
@@ -15,12 +16,12 @@ public class ProductoDto {
         this.precioVenta = precioVenta;
     }
 
-    public double getGananciaEsperada() {
-        return gananciaEsperada;
+    public double getPorcentajeRentabilidad() {
+        return porcentajeRentabilidad;
     }
 
-    public void setGananciaEsperada(double gananciaEsperada) {
-        this.gananciaEsperada = gananciaEsperada;
+    public void setPorcentajeRentabilidad(double porcentajeRentabilidad) {
+        this.porcentajeRentabilidad = porcentajeRentabilidad;
     }
 
     public double getGrasaDesperdicio() {
@@ -38,4 +39,12 @@ public class ProductoDto {
     public void setOtrosDesperdicios(double otrosDesperdicios) {
         this.otrosDesperdicios = otrosDesperdicios;
     }
+
+	public Double getInversionTotal() {
+		return inversionTotal;
+	}
+
+	public void setInversionTotal(Double inversionTotal) {
+		this.inversionTotal = inversionTotal;
+	}
 }

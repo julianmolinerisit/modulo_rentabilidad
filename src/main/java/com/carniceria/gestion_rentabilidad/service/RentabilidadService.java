@@ -9,4 +9,6 @@ public interface RentabilidadService {
     List<Producto> obtenerProductosConRentabilidad();
     
     Producto obtenerProductoPorId(Long id);
+
+	void actualizarProducto(Producto producto);
 }

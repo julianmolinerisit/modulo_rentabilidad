@@ -2,31 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Crear Producto</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script>
+        function updateStockLabel() {
+            const esPesable = document.getElementById('esPesable').checked;
+            const stockLabel = document.getElementById('stockLabel');
+            stockLabel.textContent = esPesable ? 'Stock (kg):' : 'Stock (unidades):';
+        }
+    </script>
 </head>
 <body>
     <h1>Crear Nuevo Producto</h1>
     <form th:action="@{/productos}" th:object="${producto}" method="post">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" />
+        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
         <br />
         <label for="categoria">Categoría:</label>
-        <input type="text" id="categoria" name="categoria" th:field="*{categoria}" />
+        <input type="text" id="categoria" name="categoria" th:field="*{categoria}" required />
         <br />
         <label for="precioCompra">Precio de Compra:</label>
-        <input type="number" id="precioCompra" name="precioCompra" th:field="*{precioCompra}" step="0.01" />
+        <input type="number" id="precioCompra" name="precioCompra" th:field="*{precioCompra}" step="0.01" required />
         <br />
         <label for="precioVenta">Precio de Venta:</label>
-        <input type="number" id="precioVenta" name="precioVenta" th:field="*{precioVenta}" step="0.01" />
+        <input type="number" id="precioVenta" name="precioVenta" th:field="*{precioVenta}" step="0.01" required />
         <br />
-        <label for="stock">Stock:</label>
-        <input type="number" id="stock" name="stock" th:field="*{stock}" />
+        <label for="esPesable">¿Es Pesable?</label>
+        <input type="checkbox" id="esPesable" name="esPesable" th:field="*{esPesable}" onchange="updateStockLabel()" />
         <br />
-        <label for="grasaDesperdicio">Grasa Desperdicio (kg):</label>
-        <input type="number" id="grasaDesperdicio" name="grasaDesperdicio" th:field="*{grasaDesperdicio}" step="0.01" />
+        <label id="stockLabel" for="stock">Stock (unidades):</label>
+        <input type="number" id="stock" name="stock" th:field="*{stock}" required />
         <br />
-        <label for="otrosDesperdicios">Otros Desperdicios (kg):</label>
-        <input type="number" id="otrosDesperdicios" name="otrosDesperdicios" th:field="*{otrosDesperdicios}" step="0.01" />
-        <br />
+        <div id="desperdicioFields" class="hidden">
+            <label for="grasaDesperdicio">Grasa Desperdicio (kg):</label>
+            <input type="number" id="grasaDesperdicio" name="grasaDesperdicio" th:field="*{grasaDesperdicio}" step="0.01" />
+            <br />
+            <label for="otrosDesperdicios">Otros Desperdicios (kg):</label>
+            <input type="number" id="otrosDesperdicios" name="otrosDesperdicios" th:field="*{otrosDesperdicios}" step="0.01" />
+            <br />
+        </div>
         <button type="submit">Guardar</button>
     </form>
 </body>

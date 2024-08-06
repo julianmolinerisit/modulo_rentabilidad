@@ -16,12 +16,15 @@ public class Producto {
     private double precioCompra;
     private double precioVenta;
     private int stock;
+    private boolean esPesable;
     private Double grasaDesperdicio;
     private Double otrosDesperdicios;
-    private LocalDate fechaRegistro; // Fecha del registro o de actualización
-    private double porcentajeRentabilidad = 0.0; // Porcentaje de rentabilidad inicial
+    private LocalDate fechaRegistro;
+    private double porcentajeRentabilidad = 0.0;
+    private double inversionTotal = 0.0; // Nuevo atributo para inversión total
 
     // Getters y setters
+
     public Long getId() {
         return id;
     }
@@ -70,6 +73,14 @@ public class Producto {
         this.stock = stock;
     }
 
+    public boolean isEsPesable() {
+        return esPesable;
+    }
+
+    public void setEsPesable(boolean esPesable) {
+        this.esPesable = esPesable;
+    }
+
     public Double getGrasaDesperdicio() {
         return grasaDesperdicio;
     }
@@ -102,10 +113,22 @@ public class Producto {
         this.porcentajeRentabilidad = porcentajeRentabilidad;
     }
 
-    public double calcularRentabilidad() {
-        double totalDesperdicio = (grasaDesperdicio != null ? grasaDesperdicio : 0) +
-                                  (otrosDesperdicios != null ? otrosDesperdicios : 0);
-        double precioCompraAjustado = precioCompra + totalDesperdicio;
-        return (precioVenta - precioCompraAjustado) / precioCompraAjustado * 100;
+    public double getInversionTotal() {
+        return inversionTotal;
+    }
+
+    public void setInversionTotal(double inversionTotal) {
+        this.inversionTotal = inversionTotal;
+    }
+
+    
+
+    public void actualizarInversionTotal() {
+        this.inversionTotal = this.precioCompra * this.stock;
+    }
+
+    // Método para obtener la representación del stock
+    public String getStockRepresentation() {
+        return esPesable ? stock + " kg" : stock + " unidades";
     }
 }

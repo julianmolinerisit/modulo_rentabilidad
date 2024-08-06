@@ -2,44 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Productos</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Lista de Productos</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Precio Compra</th>
-                <th>Precio Venta</th>
-                <th>Stock</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="producto : ${productos}">
-                <td th:text="${producto.id}">1</td>
-                <td th:text="${producto.nombre}">Carne</td>
-                <td th:text="${producto.categoria}">Res</td>
-                <td th:text="${producto.precioCompra}">100</td>
-                <td th:text="${producto.precioVenta}">150</td>
-                <td th:text="${producto.stock}">50</td>
-                <td>
-                    <!-- Formulario para actualizar stock -->
-                    <form th:action="@{/productos/{id}/actualizarStock(id=${producto.id})}" method="post" style="display:inline;">
-                        <input type="number" name="newStock" placeholder="Nuevo Stock" />
-                        <button type="submit">Actualizar</button>
-                    </form>
-                    
-                    <!-- Formulario para eliminar producto -->
-                    <form th:action="@{/productos/{id}/eliminar(id=${producto.id})}" method="post" style="display:inline;">
-                        <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <a href="/productos/nuevo">Nuevo Producto</a>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased p-6">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">Lista de Productos</h1>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                <thead class="bg-blue-600 text-white">
+                    <tr>
+                        <th class="py-2 px-4 text-left">ID</th>
+                        <th class="py-2 px-4 text-left">Nombre</th>
+                        <th class="py-2 px-4 text-left">Categoría</th>
+                        <th class="py-2 px-4 text-left">Precio Compra</th>
+                        <th class="py-2 px-4 text-left">Precio Venta</th>
+                        <th class="py-2 px-4 text-left">Stock</th>
+                        <th class="py-2 px-4 text-left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    <tr th:each="producto : ${productos}" class="border-b hover:bg-gray-100">
+                        <td th:text="${producto.id}" class="py-2 px-4">1</td>
+                        <td th:text="${producto.nombre}" class="py-2 px-4"></td>
+                        <td th:text="${producto.categoria}" class="py-2 px-4"></td>
+                        <td th:text="${producto.precioCompra}" class="py-2 px-4"></td>
+                        <td th:text="${producto.precioVenta}" class="py-2 px-4"></td>
+                        <td th:text="${producto.stock}" class="py-2 px-4"></td>
+                        <td class="py-2 px-4 flex space-x-2">
+                            <!-- Formulario para actualizar stock -->
+                            <form th:action="@{/productos/{id}/actualizarStock(id=${producto.id})}" method="post" class="inline">
+                                <div class="flex items-center space-x-2">
+                                    <input type="number" name="newStock" placeholder="Nuevo Stock" class="border border-gray-300 rounded-md p-1 w-20" />
+                                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded">Actualizar</button>
+                                </div>
+                            </form>
+                            
+                            <!-- Formulario para eliminar producto -->
+                            <form th:action="@{/productos/{id}/eliminar(id=${producto.id})}" method="post" class="inline">
+                                <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="/productos/nuevo" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">Nuevo Producto</a>
+        </div>
+    </div>
 </body>
 </html>

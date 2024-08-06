@@ -11,82 +11,106 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.carniceria.gestion_rentabilidad.model.Producto;
+import com.carniceria.gestion_rentabilidad.controller.ProductoDto;
 import com.carniceria.gestion_rentabilidad.service.ProductoService;
+import com.carniceria.gestion_rentabilidad.service.RentabilidadService;
 
 @Controller
 public class ProductoController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
 
-	@Autowired
-	private ProductoService productoService;
+    @Autowired
+    private ProductoService productoService;
 
-	@GetMapping("/productos")
-	public String mostrarProductos(Model model) {
-		List<Producto> productos = productoService.getAllProductos();
-		logger.info("Obteniendo todos los productos: {}", productos);
-		model.addAttribute("productos", productos);
-		return "productos";
-	}
+    @Autowired
+    private RentabilidadService rentabilidadService;
 
-	@GetMapping("/productos/nuevo")
-	public String createProductoForm(Model model) {
-		logger.info("Creando nuevo formulario de producto");
-		model.addAttribute("producto", new Producto());
-		return "crear_producto";
-	}
+    @GetMapping("/productos")
+    public String mostrarProductos(Model model) {
+        List<Producto> productos = productoService.getAllProductos();
+        
+        for (Producto producto : productos) {
+            double porcentajeRentabilidad = 0;
+            if (producto.getPrecioCompra() > 0) {
+                porcentajeRentabilidad = ((producto.getPrecioVenta() - producto.getPrecioCompra()) / producto.getPrecioCompra()) * 100;
+            }
+            producto.setPorcentajeRentabilidad(porcentajeRentabilidad);
+            producto.actualizarInversionTotal(); // Actualizar inversión total
+        }
 
-	@PostMapping("/productos")
-	public String saveProducto(@ModelAttribute("producto") Producto producto) {
-		logger.info("Guardando producto: {}", producto);
-		producto.setFechaRegistro(LocalDate.now());
-		productoService.saveProducto(producto);
-		return "redirect:/productos";
-	}
+        model.addAttribute("productos", productos);
+        return "productos";
+    }
 
-	@PostMapping("/productos/{id}/actualizarStock")
-	public String updateStock(@PathVariable Long id, @RequestParam int newStock) {
-		logger.info("Actualizando stock para producto ID: {} con nuevo stock: {}", id, newStock);
-		productoService.updateStock(id, newStock);
-		return "redirect:/productos";
-	}
+    @GetMapping("/productos/nuevo")
+    public String createProductoForm(Model model) {
+        logger.info("Creando nuevo formulario de producto");
+        model.addAttribute("producto", new Producto());
+        return "crear_producto";
+    }
 
-	@PostMapping("/productos/{id}/actualizarDesperdicio")
-	public String updateDesperdicio(@PathVariable Long id, @RequestParam Double grasaDesperdicio,
-			@RequestParam Double otrosDesperdicios) {
-		logger.info("Actualizando desperdicio para producto ID: {} con grasa: {} y otros: {}", id, grasaDesperdicio,
-				otrosDesperdicios);
-		productoService.updateDesperdicio(id, grasaDesperdicio, otrosDesperdicios);
-		return "redirect:/productos";
-	}
+    @PostMapping("/productos")
+    public String saveProducto(@ModelAttribute("producto") Producto producto) {
+        logger.info("Guardando producto: {}", producto);
+        producto.setFechaRegistro(LocalDate.now());
+        producto.actualizarInversionTotal(); // Actualizar inversión total
+        productoService.saveProducto(producto);
+        return "redirect:/productos";
+    }
 
-	@PostMapping("/productos/{id}/eliminar")
-	public String eliminarProducto(@PathVariable Long id) {
-		productoService.eliminarProducto(id);
-		return "redirect:/productos";
-	}
+    @PostMapping("/productos/{id}/actualizarStock")
+    public String updateStock(@PathVariable Long id, @RequestParam int newStock) {
+        logger.info("Actualizando stock para producto ID: {} con nuevo stock: {}", id, newStock);
+        productoService.updateStock(id, newStock);
+        return "redirect:/productos";
+    }
 
-	
-	@PostMapping("/productos/{id}/actualizar")
-	@ResponseBody
-	public String actualizarProducto(@PathVariable Long id, @RequestBody ProductoDto productoDto) {
-	    try {
-	        Producto producto = productoService.getProductoById(id);
-	        if (producto == null) {
-	            return "Producto no encontrado";
-	        }
-	        
-	        producto.setPrecioVenta(productoDto.getPrecioVenta());
-	        producto.setGrasaDesperdicio(productoDto.getGrasaDesperdicio());
-	        producto.setOtrosDesperdicios(productoDto.getOtrosDesperdicios());
-	        
-	        // Guardar el producto actualizado
-	        productoService.saveProducto(producto);
-	        
-	        return "Datos actualizados correctamente";
-	    } catch (Exception e) {
-	        return "Error al actualizar los datos";
-	    }
-	}
+    @PostMapping("/productos/{id}/actualizarPrecioVenta")
+    public String updatePrecioVenta(@PathVariable Long id, @RequestParam double nuevoPrecioVenta) {
+        logger.info("Actualizando precio de venta para producto ID: {} con nuevo precio: {}", id, nuevoPrecioVenta);
+        productoService.updatePrecioVenta(id, nuevoPrecioVenta);
+        return "redirect:/productos";
+    }
+
+    @PostMapping("/productos/{id}/actualizarRentabilidad")
+    public String updateRentabilidad(@PathVariable Long id, @RequestParam double nuevaRentabilidad) {
+        logger.info("Actualizando rentabilidad para producto ID: {} con nueva rentabilidad: {}", id, nuevaRentabilidad);
+        productoService.updateRentabilidad(id, nuevaRentabilidad);
+        return "redirect:/productos";
+    }
+
+    @PostMapping("/productos/{id}/actualizarGrasaDesperdicio")
+    public String updateGrasaDesperdicio(@PathVariable Long id, @RequestParam double nuevaGrasaDesperdicio) {
+        logger.info("Actualizando grasa de desperdicio para producto ID: {} con nueva grasa: {}", id, nuevaGrasaDesperdicio);
+        productoService.updateGrasaDesperdicio(id, nuevaGrasaDesperdicio);
+        return "redirect:/productos";
+    }
+
+    @PostMapping("/productos/{id}/actualizarOtrosDesperdicios")
+    public String updateOtrosDesperdicios(@PathVariable Long id, @RequestParam double nuevosOtrosDesperdicios) {
+        logger.info("Actualizando otros desperdicios para producto ID: {} con nuevos desperdicios: {}", id, nuevosOtrosDesperdicios);
+        productoService.updateOtrosDesperdicios(id, nuevosOtrosDesperdicios);
+        return "redirect:/productos";
+    }
+
+    @PostMapping("/productos/{id}/eliminar")
+    public String eliminarProducto(@PathVariable Long id) {
+        productoService.eliminarProducto(id);
+        return "redirect:/productos";
+    }
+
+    @GetMapping("/rentabilidad")
+    public String verRentabilidad(Model model) {
+        logger.info("Obteniendo productos con rentabilidad");
+        List<Producto> productosConRentabilidad = rentabilidadService.obtenerProductosConRentabilidad();
+        if (productosConRentabilidad != null) {
+            logger.info("Número de productos obtenidos: {}", productosConRentabilidad.size());
+        } else {
+            logger.warn("La lista de productos con rentabilidad es nula");
+        }
+        model.addAttribute("productos", productosConRentabilidad);
+        return "rentabilidad";
+    }
 
 }
