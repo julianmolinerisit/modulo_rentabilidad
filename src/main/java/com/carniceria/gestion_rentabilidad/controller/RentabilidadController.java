@@ -43,10 +43,13 @@ public class RentabilidadController {
         double precioVenta = precioCompra * (1 + porcentajeRentabilidad / 100);
         double gananciaEsperada = (precioVenta - precioCompra) * cantidadLote;
 
+        logger.info("Precio Compra: {}, Precio Venta: {}, Ganancia Esperada: {}", precioCompra, precioVenta, gananciaEsperada);
+
         model.addAttribute("producto", producto);
         model.addAttribute("precioVenta", precioVenta);
         model.addAttribute("gananciaEsperada", gananciaEsperada);
         
-        return "rentabilidad";  // o la vista que desees actualizar
+        return "rentabilidad";
     }
+
 }

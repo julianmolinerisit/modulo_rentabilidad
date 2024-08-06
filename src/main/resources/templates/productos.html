@@ -10,7 +10,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Categoria</th>
+                <th>Categoría</th>
                 <th>Precio Compra</th>
                 <th>Precio Venta</th>
                 <th>Stock</th>
@@ -26,9 +26,15 @@
                 <td th:text="${producto.precioVenta}">150</td>
                 <td th:text="${producto.stock}">50</td>
                 <td>
-                    <form th:action="@{/productos/{id}/actualizarStock(id=${producto.id})}" method="post">
+                    <!-- Formulario para actualizar stock -->
+                    <form th:action="@{/productos/{id}/actualizarStock(id=${producto.id})}" method="post" style="display:inline;">
                         <input type="number" name="newStock" placeholder="Nuevo Stock" />
                         <button type="submit">Actualizar</button>
+                    </form>
+                    
+                    <!-- Formulario para eliminar producto -->
+                    <form th:action="@{/productos/{id}/eliminar(id=${producto.id})}" method="post" style="display:inline;">
+                        <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?');">Eliminar</button>
                     </form>
                 </td>
             </tr>

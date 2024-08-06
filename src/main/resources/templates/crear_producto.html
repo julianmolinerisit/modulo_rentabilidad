@@ -21,6 +21,12 @@
         <label for="stock">Stock:</label>
         <input type="number" id="stock" name="stock" th:field="*{stock}" />
         <br />
+        <label for="grasaDesperdicio">Grasa Desperdicio (kg):</label>
+        <input type="number" id="grasaDesperdicio" name="grasaDesperdicio" th:field="*{grasaDesperdicio}" step="0.01" />
+        <br />
+        <label for="otrosDesperdicios">Otros Desperdicios (kg):</label>
+        <input type="number" id="otrosDesperdicios" name="otrosDesperdicios" th:field="*{otrosDesperdicios}" step="0.01" />
+        <br />
         <button type="submit">Guardar</button>
     </form>
 </body>

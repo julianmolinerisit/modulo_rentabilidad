@@ -1,5 +1,6 @@
 package com.carniceria.gestion_rentabilidad.model;
 
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +16,10 @@ public class Producto {
     private double precioCompra;
     private double precioVenta;
     private int stock;
-    
+    private Double grasaDesperdicio;
+    private Double otrosDesperdicios;
+    private LocalDate fechaRegistro; // Fecha del registro o de actualización
+    private double porcentajeRentabilidad = 0.0; // Porcentaje de rentabilidad inicial
 
     // Getters y setters
     public Long getId() {
@@ -66,7 +70,42 @@ public class Producto {
         this.stock = stock;
     }
 
+    public Double getGrasaDesperdicio() {
+        return grasaDesperdicio;
+    }
+
+    public void setGrasaDesperdicio(Double grasaDesperdicio) {
+        this.grasaDesperdicio = grasaDesperdicio;
+    }
+
+    public Double getOtrosDesperdicios() {
+        return otrosDesperdicios;
+    }
+
+    public void setOtrosDesperdicios(Double otrosDesperdicios) {
+        this.otrosDesperdicios = otrosDesperdicios;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public double getPorcentajeRentabilidad() {
+        return porcentajeRentabilidad;
+    }
+
+    public void setPorcentajeRentabilidad(double porcentajeRentabilidad) {
+        this.porcentajeRentabilidad = porcentajeRentabilidad;
+    }
+
     public double calcularRentabilidad() {
-        return (precioVenta - precioCompra) / precioCompra * 100;
+        double totalDesperdicio = (grasaDesperdicio != null ? grasaDesperdicio : 0) +
+                                  (otrosDesperdicios != null ? otrosDesperdicios : 0);
+        double precioCompraAjustado = precioCompra + totalDesperdicio;
+        return (precioVenta - precioCompraAjustado) / precioCompraAjustado * 100;
     }
 }

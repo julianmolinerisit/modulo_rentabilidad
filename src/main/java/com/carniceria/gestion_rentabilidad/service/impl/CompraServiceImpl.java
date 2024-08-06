@@ -11,6 +11,7 @@ import com.carniceria.gestion_rentabilidad.service.CompraService;
 
 @Service
 public class CompraServiceImpl implements CompraService {
+
     @Autowired
     private CompraRepository compraRepository;
 
@@ -22,5 +23,15 @@ public class CompraServiceImpl implements CompraService {
     @Override
     public void saveCompra(Compra compra) {
         compraRepository.save(compra);
+    }
+
+    @Override
+    public Compra getCompraById(Long id) {
+        return compraRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteCompraById(Long id) {
+        compraRepository.deleteById(id);
     }
 }

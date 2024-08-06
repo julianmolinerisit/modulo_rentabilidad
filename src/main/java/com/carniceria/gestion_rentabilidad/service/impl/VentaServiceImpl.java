@@ -11,6 +11,7 @@ import com.carniceria.gestion_rentabilidad.service.VentaService;
 
 @Service
 public class VentaServiceImpl implements VentaService {
+
     @Autowired
     private VentaRepository ventaRepository;
 
@@ -22,5 +23,15 @@ public class VentaServiceImpl implements VentaService {
     @Override
     public void saveVenta(Venta venta) {
         ventaRepository.save(venta);
+    }
+
+    @Override
+    public Venta getVentaById(Long id) {
+        return ventaRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteVentaById(Long id) {
+        ventaRepository.deleteById(id);
     }
 }
