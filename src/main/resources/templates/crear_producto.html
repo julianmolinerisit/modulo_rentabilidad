@@ -11,8 +11,13 @@
         function updateStockLabel() {
             const esPesable = document.getElementById('esPesable').checked;
             const stockLabel = document.getElementById('stockLabel');
+            const desperdicioFields = document.getElementById('desperdicioFields');
             stockLabel.textContent = esPesable ? 'Stock (kg):' : 'Stock (unidades):';
+            desperdicioFields.style.display = esPesable ? 'block' : 'none';
         }
+
+        // Llamada inicial para establecer el estado correcto de los campos
+        window.onload = updateStockLabel;
     </script>
 </head>
 <body>
@@ -36,6 +41,7 @@
         <label id="stockLabel" for="stock">Stock (unidades):</label>
         <input type="number" id="stock" name="stock" th:field="*{stock}" required />
         <br />
+        <!-- Campos para grasa y otros desperdicios, inicialmente ocultos -->
         <div id="desperdicioFields" class="hidden">
             <label for="grasaDesperdicio">Grasa Desperdicio (kg):</label>
             <input type="number" id="grasaDesperdicio" name="grasaDesperdicio" th:field="*{grasaDesperdicio}" step="0.01" />

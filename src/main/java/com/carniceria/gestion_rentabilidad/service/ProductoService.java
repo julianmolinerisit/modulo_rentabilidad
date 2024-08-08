@@ -12,17 +12,13 @@ public interface ProductoService {
 
     void saveProducto(Producto producto);
 
-    void updateStock(Long id, int newStock);
-
-    void updatePrecioVenta(Long id, double nuevoPrecioVenta);
-
-    void updateRentabilidad(Long id, double nuevaRentabilidad);
-
-    void updateGrasaDesperdicio(Long id, double nuevaGrasaDesperdicio);
-
-    void updateOtrosDesperdicios(Long id, double nuevosOtrosDesperdicios);
-
-    void updateDesperdicio(Long id, Double grasaDesperdicio, Double otrosDesperdicios);
-
     void eliminarProducto(Long id);
+
+    Producto obtenerProductoPorId(Long id);
+
+    void actualizarProducto(Producto producto); // Método para actualizar el producto completo
+
+    void deleteProductoById(Long id); // Método que también elimina un producto por ID
+
+	List<Producto> obtenerTodosLosProductos();
 }

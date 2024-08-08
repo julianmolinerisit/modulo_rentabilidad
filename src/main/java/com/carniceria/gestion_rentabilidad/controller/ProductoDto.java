@@ -1,10 +1,10 @@
 package com.carniceria.gestion_rentabilidad.controller;
 
 public class ProductoDto {
-    private double precioVenta;
-    private double porcentajeRentabilidad;
-    private double grasaDesperdicio;
-    private double otrosDesperdicios;
+    private Double precioVenta;
+    private Double porcentajeRentabilidad;
+    private Double grasaDesperdicio;
+    private Double otrosDesperdicios;
     private Double inversionTotal;
 
     // Getters y setters

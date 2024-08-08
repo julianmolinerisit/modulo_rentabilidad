@@ -1,6 +1,7 @@
 package com.carniceria.gestion_rentabilidad.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,4 +33,10 @@ public class RentabilidadServiceImpl implements RentabilidadService {
             productoRepository.save(producto);
         }
     }
+
+	@Override
+	public List<Map<String, Object>> calcularRentabilidadPorCategoria() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

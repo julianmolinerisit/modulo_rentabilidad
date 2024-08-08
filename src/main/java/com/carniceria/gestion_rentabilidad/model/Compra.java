@@ -21,7 +21,7 @@ public class Compra {
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
-    // Getters y setters
+    // Getters y Setters
     public Long getId() {
         return id;
     }
