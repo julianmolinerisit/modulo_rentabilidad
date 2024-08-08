@@ -2,55 +2,68 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Crear Producto</title>
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
-    <script>
-        function updateStockLabel() {
-            const esPesable = document.getElementById('esPesable').checked;
-            const stockLabel = document.getElementById('stockLabel');
-            const desperdicioFields = document.getElementById('desperdicioFields');
-            stockLabel.textContent = esPesable ? 'Stock (kg):' : 'Stock (unidades):';
-            desperdicioFields.style.display = esPesable ? 'block' : 'none';
-        }
-
-        // Llamada inicial para establecer el estado correcto de los campos
-        window.onload = updateStockLabel;
-    </script>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Crear Nuevo Producto</h1>
-    <form th:action="@{/productos}" th:object="${producto}" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
-        <br />
-        <label for="categoria">Categoría:</label>
-        <input type="text" id="categoria" name="categoria" th:field="*{categoria}" required />
-        <br />
-        <label for="precioCompra">Precio de Compra:</label>
-        <input type="number" id="precioCompra" name="precioCompra" th:field="*{precioCompra}" step="0.01" required />
-        <br />
-        <label for="precioVenta">Precio de Venta:</label>
-        <input type="number" id="precioVenta" name="precioVenta" th:field="*{precioVenta}" step="0.01" required />
-        <br />
-        <label for="esPesable">¿Es Pesable?</label>
-        <input type="checkbox" id="esPesable" name="esPesable" th:field="*{esPesable}" onchange="updateStockLabel()" />
-        <br />
-        <label id="stockLabel" for="stock">Stock (unidades):</label>
-        <input type="number" id="stock" name="stock" th:field="*{stock}" required />
-        <br />
-        <!-- Campos para grasa y otros desperdicios, inicialmente ocultos -->
-        <div id="desperdicioFields" class="hidden">
-            <label for="grasaDesperdicio">Grasa Desperdicio (kg):</label>
-            <input type="number" id="grasaDesperdicio" name="grasaDesperdicio" th:field="*{grasaDesperdicio}" step="0.01" />
-            <br />
-            <label for="otrosDesperdicios">Otros Desperdicios (kg):</label>
-            <input type="number" id="otrosDesperdicios" name="otrosDesperdicios" th:field="*{otrosDesperdicios}" step="0.01" />
-            <br />
-        </div>
-        <button type="submit">Guardar</button>
-    </form>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased p-6">
+    <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-6 text-center text-blue-600">Crear Nuevo Producto</h1>
+
+        <form th:action="@{/productos}" th:object="${producto}" method="post">
+            <div class="mb-4">
+                <label for="nombre" class="block text-gray-700">Nombre:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required 
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+
+            <div class="mb-4">
+                <label for="descripcion" class="block text-gray-700">Descripción:</label>
+                <input type="text" id="descripcion" th:field="*{descripcion}"
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+
+            <div class="mb-4">
+                <label for="categoria" class="block text-gray-700">Categoría:</label>
+                <select id="categoria" th:field="*{categoria.id}"
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option th:each="categoria : ${categorias}"
+                        th:value="${categoria.id}" th:text="${categoria.nombre}">Categoría</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <button type="button" id="addCategoryButton"
+                    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md">
+                    Agregar Nueva Categoría
+                </button>
+            </div>
+
+            <div class="mb-4">
+                <label for="esPesable" class="inline-flex items-center text-gray-700">
+                    <input type="checkbox" id="esPesable" th:field="*{esPesable}" 
+                        class="mr-2 focus:ring-2 focus:ring-blue-500" />
+                    Es Pesable
+                </label>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md">
+                    Guardar Producto
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- JavaScript to handle the redirection -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.getElementById('addCategoryButton').onclick = function() {
+            window.location.href = /*[[@{/categorias/nueva}]]*/;
+        };
+        /*]]>*/
+    </script>
+    
+    
+    
 </body>
 </html>

@@ -1,10 +1,17 @@
 package com.carniceria.gestion_rentabilidad.model;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Producto {
@@ -13,10 +20,9 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    private String categoria;
     private Double precioCompra = 0.0;
     private Double precioVenta = 0.0;
-    private int stock = 0;
+    private double stock; // Cambiar de int a double para manejar tanto unidades como peso
     private double grasaDesperdicio = 0.0;
     private double otrosDesperdicios = 0.0;
     private LocalDate fechaRegistro;
@@ -26,6 +32,14 @@ public class Producto {
     private Double inversionTotal = 0.0;
     private Double dineroTotalRecaudado = 0.0;
     private Boolean esPesable;
+    private String descripcion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id") // Asegúrate de que la columna coincida con tu base de datos
+    private Categoria categoria;
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra> compras;
 
     // Getters y Setters
     public Long getId() {
@@ -44,11 +58,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
@@ -68,11 +82,11 @@ public class Producto {
         this.precioVenta = precioVenta;
     }
 
-    public int getStock() {
+    public double getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(double stock) {
         this.stock = stock;
     }
 
@@ -167,4 +181,12 @@ public class Producto {
     public void calcularDineroTotalRecaudado() {
         this.dineroTotalRecaudado = this.precioVenta * this.stock;
     }
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 }

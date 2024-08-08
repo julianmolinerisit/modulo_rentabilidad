@@ -20,5 +20,9 @@ public interface ProductoService {
 
     void deleteProductoById(Long id); // Método que también elimina un producto por ID
 
-	List<Producto> obtenerTodosLosProductos();
+    List<Producto> obtenerTodosLosProductos();
+
+    void actualizarStock(Long id, int newStock); // Nuevo método para actualizar stock
+
+    void actualizarPrecioCompra(Long id, double newPrecioCompra); // Nuevo método para actualizar precio de compra
 }

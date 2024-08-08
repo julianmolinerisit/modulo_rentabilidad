@@ -1,56 +1,112 @@
 package com.carniceria.gestion_rentabilidad.model;
 
+import jakarta.persistence.*;
 import java.sql.Date;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Compra {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Date fecha;
-    private double total;
-    
-    @ManyToOne
-    @JoinColumn(name = "producto_id")
-    private Producto producto;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
+	@Column(nullable = false)
+	private Date fecha;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private double total;
+	private double precioCompra;
+	@Column(nullable = false)
+	private Boolean esPesable; // Para indicar si el producto es por peso o unitario
+	private double cantidad;
+	private String medioDePago;
+	private boolean pagado; // Para saber si la compra fue pagada o no
 
-    public Date getFecha() {
-        return fecha;
-    }
+	@ManyToOne(fetch = FetchType.LAZY) // Usar carga lenta para evitar cargar innecesariamente los datos del proveedor
+	@JoinColumn(name = "producto_id", nullable = false)
+	private Producto producto;
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
+	@ManyToOne(fetch = FetchType.LAZY) // Usar carga lenta para evitar cargar innecesariamente los datos del proveedor
+	@JoinColumn(name = "proveedor_id", nullable = false)
+	private Proveedor proveedor;
 
-    public double getTotal() {
-        return total;
-    }
+	// Getters y Setters
 
-    public void setTotal(double total) {
-        this.total = total;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Producto getProducto() {
-        return producto;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public double getprecioCompra() {
+		return precioCompra;
+	}
+
+	public void setprecioCompra(double precioCompra) {
+		this.precioCompra = precioCompra;
+	}
+
+	public double getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(double cantidadKilos) {
+		this.cantidad = cantidadKilos;
+	}
+
+	public String getMedioDePago() {
+		return medioDePago;
+	}
+
+	public void setMedioDePago(String medioDePago) {
+		this.medioDePago = medioDePago;
+	}
+
+	public boolean isPagado() {
+		return pagado;
+	}
+
+	public void setPagado(boolean pagado) {
+		this.pagado = pagado;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	public Proveedor getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(Proveedor proveedor) {
+		this.proveedor = proveedor;
+	}
+
+	public Boolean getEsPesable() {
+		return esPesable;
+	}
+
+	public void setEsPesable(Boolean esPesable) {
+		this.esPesable = esPesable;
+	}
 }
