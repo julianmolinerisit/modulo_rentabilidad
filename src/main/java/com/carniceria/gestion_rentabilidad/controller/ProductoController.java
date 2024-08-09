@@ -75,7 +75,7 @@ public class ProductoController {
 
 	@PostMapping("/productos/{id}/importarCompras")
 	public String importarCompras(@PathVariable Long id, @RequestParam("compraId") Long compraId) {
-	    Producto producto = productoService.obtenerProductoPorId(id);
+	    Producto producto = productoService.getProductoById(id);
 	    Compra compra = compraService.getCompraById(compraId);
 
 	    if (producto != null && compra != null) {
@@ -109,7 +109,7 @@ public class ProductoController {
     
 	@GetMapping("/rentabilidad")
 	public String mostrarRentabilidad(Model model) {
-		List<Producto> productos = productoService.obtenerTodosLosProductos();
+		List<Producto> productos = productoService.getAllProductos();
 		model.addAttribute("productos", productos);
 		return "rentabilidad";
 	}
@@ -119,7 +119,7 @@ public class ProductoController {
 	public void actualizarRentabilidadDatos(@PathVariable("id") Long idProducto,
 	        @RequestBody Map<String, Double> datos) {
 
-	    Producto producto = productoService.obtenerProductoPorId(idProducto);
+	    Producto producto = productoService.getProductoById(idProducto);
 
 	    if (producto != null) {
 	        double porcentajeRentabilidad = datos.getOrDefault("porcentajeRentabilidad", 0.0);
@@ -143,4 +143,6 @@ public class ProductoController {
 	        productoService.saveProducto(producto);
 	    }
 	}
+	
+	
 }

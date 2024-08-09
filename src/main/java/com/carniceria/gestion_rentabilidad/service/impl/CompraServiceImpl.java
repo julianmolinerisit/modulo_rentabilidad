@@ -1,6 +1,7 @@
 package com.carniceria.gestion_rentabilidad.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,4 +35,10 @@ public class CompraServiceImpl implements CompraService {
     public void deleteCompraById(Long id) {
         compraRepository.deleteById(id);
     }
+    
+    @Override
+    public Optional<Compra> findLastCompraByProductoId(Long productoId) {
+        return compraRepository.findFirstByProductoIdOrderByFechaDesc(productoId);
+    }
+    
 }

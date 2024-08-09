@@ -68,6 +68,10 @@ public class CompraController {
             } else {
                 producto.setStock(producto.getStock() + (int) compra.getCantidad()); // Suma la cantidad en unidades
             }
+            
+            // Actualizar el precio de compra al último registrado
+            producto.setPrecioCompra(compra.getprecioCompra());
+
             productoService.saveProducto(producto);
         } else {
             logger.error("Producto no encontrado: {}", compra.getProducto().getId());
@@ -76,4 +80,5 @@ public class CompraController {
         compraService.saveCompra(compra);
         return "redirect:/compras";
     }
+
 }

@@ -161,7 +161,7 @@
                     <tr th:each="producto : ${productos}" data-id="${producto.id}" class="border-b hover:bg-gray-100">
                         <td class="py-2 px-4" th:text="${producto.id}"></td>
                         <td th:text="${producto.nombre}" class="py-2 px-4">Nombre</td>
-                        <td th:text="${producto.categoria}" class="py-2 px-4">Categoría</td>
+                        <td th:text="${producto.categoria.nombre}" class="py-2 px-4">Categoría</td>
                         <td th:id="'precioCompra-' + ${producto.id}" th:text="${producto.precioCompra}" class="py-2 px-4">0.00</td>
                         <td th:id="'precioVenta-' + ${producto.id}" th:text="${producto.precioVenta}" class="py-2 px-4">0.00</td>
                         <td class="py-2 px-4">

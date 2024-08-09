@@ -25,4 +25,6 @@ public interface ProductoService {
     void actualizarStock(Long id, int newStock); // Nuevo método para actualizar stock
 
     void actualizarPrecioCompra(Long id, double newPrecioCompra); // Nuevo método para actualizar precio de compra
+
+
 }
