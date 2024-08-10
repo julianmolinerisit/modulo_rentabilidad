@@ -22,7 +22,7 @@ public class Producto {
     private String nombre;
     private Double precioCompra = 0.0;
     private Double precioVenta = 0.0;
-    private double stock; // Cambiar de int a double para manejar tanto unidades como peso
+    private int stock; // Cambia el tipo de double a int
     private double grasaDesperdicio = 0.0;
     private double otrosDesperdicios = 0.0;
     private LocalDate fechaRegistro;
@@ -82,14 +82,14 @@ public class Producto {
         this.precioVenta = precioVenta;
     }
 
-    public double getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(double stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
-
+    
     public double getGrasaDesperdicio() {
         return grasaDesperdicio;
     }

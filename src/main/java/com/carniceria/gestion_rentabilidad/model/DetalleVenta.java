@@ -1,29 +1,22 @@
 package com.carniceria.gestion_rentabilidad.model;
 
 import jakarta.persistence.*;
-import java.sql.Date;
 
 @Entity
-public class Venta {
+public class DetalleVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Date fecha;
-
-    @Column(nullable = false)
-    private double total;
-
-    @Column(nullable = false)
     private int cantidad;
+    private double precio;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "producto_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "producto_id")
     private Producto producto;
-    
-    
-    
+
+    @ManyToOne
+    @JoinColumn(name = "venta_id")
+    private Venta venta;
 
     // Getters y setters
     public Long getId() {
@@ -34,22 +27,6 @@ public class Venta {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
     public int getCantidad() {
         return cantidad;
     }
@@ -58,11 +35,27 @@ public class Venta {
         this.cantidad = cantidad;
     }
 
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
     public Producto getProducto() {
         return producto;
     }
 
     public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 }

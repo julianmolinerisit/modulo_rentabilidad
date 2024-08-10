@@ -61,15 +61,6 @@ public class ProductoServiceImpl implements ProductoService {
 		return getAllProductos();
 	}
 
-	@Override
-	@Transactional
-	public void actualizarStock(Long id, int newStock) {
-		Producto producto = productoRepository.findById(id).orElse(null);
-		if (producto != null) {
-			producto.setStock(newStock);
-			productoRepository.save(producto);
-		}
-	}
 
 	@Override
 	@Transactional
@@ -80,5 +71,16 @@ public class ProductoServiceImpl implements ProductoService {
 			productoRepository.save(producto);
 		}
 	}
+	
+	@Override
+	public void actualizarStock(Long id, int newStock) {
+	    if (newStock < 0) {
+	        throw new IllegalArgumentException("El stock no puede ser negativo.");
+	    }
+	    Producto producto = obtenerProductoPorId(id);
+	    producto.setStock(newStock);
+	    saveProducto(producto);
+	}
+
 
 }

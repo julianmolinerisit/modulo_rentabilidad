@@ -31,23 +31,27 @@ public class ProductoController {
 
 	@GetMapping("/productos")
 	public String mostrarProductos(Model model) {
-		List<Producto> productos = productoService.getAllProductos();
+	    List<Producto> productos = productoService.getAllProductos();
 
-		for (Producto producto : productos) {
-			double porcentajeRentabilidad = 0;
-			if (producto.getInversionTotal() > 0) {
-				porcentajeRentabilidad = ((producto.getPrecioVenta() - producto.getInversionTotal() / producto.getStock()) 
-						/ (producto.getInversionTotal() / producto.getStock())) * 100;
-			}
-			producto.setPorcentajeRentabilidad(porcentajeRentabilidad);
-			producto.calcularGananciaUnitaria(); // Calcular ganancia unitaria
-			producto.calcularGananciaTotal(); // Calcular ganancia total
-			producto.calcularDineroTotalRecaudado(); // Calcular dinero total recaudado
-		}
+	    for (Producto producto : productos) {
+	        // Asegúrate de que el precio de venta es el correcto
+	        logger.info("Producto: {} - Precio de venta: {}", producto.getNombre(), producto.getPrecioVenta());
 
-		model.addAttribute("productos", productos);
-		return "productos";
+	        double porcentajeRentabilidad = 0;
+	        if (producto.getPrecioCompra() > 0) {
+	            porcentajeRentabilidad = ((producto.getPrecioVenta() - producto.getPrecioCompra()) 
+	                    / producto.getPrecioCompra()) * 100;
+	        }
+	        producto.setPorcentajeRentabilidad(porcentajeRentabilidad);
+	        producto.calcularGananciaUnitaria();
+	        producto.calcularGananciaTotal();
+	        producto.calcularDineroTotalRecaudado();
+	    }
+
+	    model.addAttribute("productos", productos);
+	    return "productos";
 	}
+
 
 	@Autowired
     private CategoriaService categoriaService;
@@ -66,6 +70,8 @@ public class ProductoController {
 		productoService.saveProducto(producto);
 		return "redirect:/productos";
 	}
+	
+	
 
 	@PostMapping("/productos/{id}/eliminar")
 	public String eliminarProducto(@PathVariable Long id) {
